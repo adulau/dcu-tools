@@ -26,7 +26,6 @@ from azure.storage import BlobService
 from optparse import OptionParser
 import sys
 import json
-from bson import json_util
 
 debug = False
 header = True
@@ -90,7 +89,7 @@ for container in blob_service.list_containers():
             for x in ds.strip().split("\t")[:27]:
                 d[headers[i]] = x
                 i=i+1
-            print (json.dumps(d, sort_keys=True, default=json_util.default))
+            print (json.dumps(d, sort_keys=True))
         if options.clear:
             if debug: sys.stderr.write("Deleting blob: "+str(b.name)+"\n")
             blob_service.delete_blob(c, b.name)
