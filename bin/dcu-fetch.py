@@ -41,6 +41,7 @@ parser.add_option("-k","--account_key", dest="account_key", help="Microsoft Azur
 parser.add_option("-c","--clear", dest="clear", action='store_true', help="Delete blobs and containers after fetching")
 parser.add_option("-e","--header", dest="header", action='store_true', help="Remove field header in the output (default is displayed)")
 parser.add_option("-f","--format", dest="output_format", help="output txt, json (default is txt)")
+parser.add_option("-t","--date", dest="date", help="date in format YYYY-MM-DD to limit the query (default is all)")
 
 (options, args) = parser.parse_args()
 
@@ -69,9 +70,11 @@ if header and not options.output_format:
     print '\t'.join(str(h) for h in headers)
 
 blob_service = BlobService(account_name, account_key)
+
 for container in blob_service.list_containers():
     c = container.name
     if c == "heartbeat": continue
+    if options.date and not ( c == "processed-"+options.date ): continue
     if debug: sys.stderr.write("Processing container: "+str(c)+"\n")
     for b in blob_service.list_blobs(c):
         if debug: sys.stderr.write("Processing blob: "+str(b.name)+"\n")
