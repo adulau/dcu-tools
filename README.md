@@ -20,13 +20,16 @@ Usage
                                 displayed)
           -f OUTPUT_FORMAT, --format=OUTPUT_FORMAT
                                 output txt, json (default is txt)
+          -t DATE, --date=DATE  date in format YYYY-MM-DD to limit the query (default
+                                is all)
+
 
 Dumping sink-hole addresses
 ---------------------------
 
     python ./bin/dcu-fetch.py -a <azure feed> -k "<azure key>" -f json | jq -r .TargetIp
 
-Dumping some values and cleaning the container/blobs
+Dumping some specific values and cleaning the container/blobs
 ----------------------------------------------------
 
     python ./bin/dcu-fetch.py -a <azure feed> -k "<azure key>" -f json | jq -r '.SourceIpAsnNr+" "+.SourceIp +" "+ .Botnet'
